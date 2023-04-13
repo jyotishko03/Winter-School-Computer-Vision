@@ -1,22 +1,3 @@
-'''import cv2 as cv
-
-cv.namedWindow('Live Stream')
-vid=cv.VideoCapture(0)
-
-while True:
-    _,frame=vid.read()
-    cv.imshow('Live Stream', frame)
-
-    if cv.waitKey(1) & 0xFF==ord('q'):
-        break
-
-vid.release()
-cv.destroyAllWindows'''
-
-
-
-
-
 import cv2
 import numpy as np
 

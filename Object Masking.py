@@ -14,7 +14,7 @@ def func(x):
 color = np.zeros((300, 512, 3), np.uint8)
 cv2.namedWindow('color')
 
-
+ # Creating color Trackbars
 cv2.createTrackbar('red', 'color', 0, 255, func)
 cv2.createTrackbar('green', 'color', 0, 255, func)
 cv2.createTrackbar('blue', 'color', 0, 255, func)
@@ -43,7 +43,7 @@ while True:
     #bf=cv2.getTrackbarPos('threashold', 'color')
 
 
-
+#Detecting and deleting the matched pixels
     for i in range(img_gray.shape[0]):
         for j in range(img_gray.shape[1]):
             if (img[i,j,2]>red-bf and img[i,j,2]<red+bf):  #Condition to zone out
@@ -52,6 +52,8 @@ while True:
                         for k in range(3):
                             img[i,j,k]=0
                             box[i,j,k]=255
+                            
+   #Merging with Cannied Image as Mask
     box_not=cv2.bitwise_not(box)
     box_bin=cv2.cvtColor(box,cv2.COLOR_BGR2GRAY)
     flower_merged1=cv2.bitwise_and(canny,box_bin)

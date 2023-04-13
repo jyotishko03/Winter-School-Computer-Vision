@@ -18,7 +18,7 @@ cv2.namedWindow('color')
 cv2.createTrackbar('red', 'color', 0, 255, func)
 cv2.createTrackbar('green', 'color', 0, 255, func)
 cv2.createTrackbar('blue', 'color', 0, 255, func)
-cv2.createTrackbar('threashold','color', 0, 255, func)
+#cv2.createTrackbar('threashold','color', 0, 255, func)
 
 
 flower=cv2.imread('Flower.jpg')
@@ -27,6 +27,7 @@ flower_gray=cv2.cvtColor(flower,cv2.COLOR_BGR2GRAY)
 kernel=(3,3)
 blur=cv2.blur(flower,kernel ) # img, kernelsize
 canny=cv2.Canny(blur,20,20)  # img, low, high    low=(0,255), high=(0,255)
+bf=50
 
 while True:
     _,img=vid.read()
@@ -39,7 +40,7 @@ while True:
     red = cv2.getTrackbarPos('red', 'color')
     green = cv2.getTrackbarPos('green', 'color')
     blue = cv2.getTrackbarPos('blue', 'color')
-    bf=cv2.getTrackbarPos('threashold', 'color')
+    #bf=cv2.getTrackbarPos('threashold', 'color')
 
 
 

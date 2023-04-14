@@ -7,16 +7,24 @@ cv2.namedWindow('Trackbar')
 cv2.createTrackbar('threashold','Trackbar',0,255, func)
 cv2.createTrackbar('min','Trackbar',0,255, func)
 cv2.createTrackbar('max','Trackbar',0,255, func)
-vid=cv2.VideoCapture(r"<enter road video file path here>")
+vid=cv2.VideoCapture(r"C:\Users\jyoti\Desktop\Smooth road.mp4")
+
 
 
 while True:
     _,img=vid.read()
-    cv2.imshow('Road', img)
-
-    if cv2.waitKey(27) & 0xFF==ord('q'):
+    if _==False:
         break
-    crop = img[12*img.shape[0] //20:, img.shape[1]//30:17*img.shape[1]//20, :] #Analysing a particular area
+    try:
+        cv2.imshow('Road', img)
+    except:
+        print("Please enter correct file path")
+
+
+    if cv2.waitKey(1) & 0xFF==ord('q'):
+        break
+    #crop=img[img.shape[0]//4+100:, img.shape[1]//8:3*img.shape[1]//4,:]
+    crop = img[12*img.shape[0] //20:, img.shape[1]//30:17*img.shape[1]//20, :]
     gray=cv2.cvtColor(crop,cv2.COLOR_BGR2GRAY)
     blur=cv2.GaussianBlur(gray,(3,3),cv2.BORDER_DEFAULT)
     canny=cv2.Canny(blur,50,130)
@@ -35,7 +43,6 @@ while True:
 
     masked=cv2.bitwise_and(canny, canny, mask=mask)
     lines=cv2.HoughLinesP(masked,1,np.pi/180,threashold, minLineLength=min, maxLineGap=max)
-    print(lines)
     try:
         for points in lines:
             x1,y1,x2,y2=points[0]

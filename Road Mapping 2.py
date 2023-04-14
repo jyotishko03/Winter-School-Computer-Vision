@@ -7,7 +7,7 @@ cv2.namedWindow('Trackbar')
 cv2.createTrackbar('threashold','Trackbar',0,255, func)
 cv2.createTrackbar('min','Trackbar',0,255, func)
 cv2.createTrackbar('max','Trackbar',0,255, func)
-vid=cv2.VideoCapture(r"C:\Users\jyoti\Desktop\Smooth road.mp4")
+vid=cv2.VideoCapture(r"<enter road video file path here>")
 
 
 while True:

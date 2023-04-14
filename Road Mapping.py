@@ -7,7 +7,8 @@ cv2.namedWindow('Trackbar')
 cv2.createTrackbar('threashold','Trackbar',0,255, func)
 cv2.createTrackbar('min','Trackbar',0,255, func)
 cv2.createTrackbar('max','Trackbar',0,255, func)
-vid=cv2.VideoCapture(r"C:\Users\jyoti\Desktop\Smooth road.mp4")
+vid=cv2.VideoCapture(r"<Enter the correct file path of the downloaded video>") 
+print("Please enter correct file path")
 
 
 
@@ -15,14 +16,13 @@ while True:
     _,img=vid.read()
     if _==False:
         break
-    try:
-        cv2.imshow('Road', img)
-    except:
-        print("Please enter correct file path")
+    cv2.imshow('Road', img)
+    print("Enter correct file path")
 
 
     if cv2.waitKey(1) & 0xFF==ord('q'):
         break
+
     #crop=img[img.shape[0]//4+100:, img.shape[1]//8:3*img.shape[1]//4,:]
     crop = img[12*img.shape[0] //20:, img.shape[1]//30:17*img.shape[1]//20, :]
     gray=cv2.cvtColor(crop,cv2.COLOR_BGR2GRAY)

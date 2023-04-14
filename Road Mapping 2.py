@@ -16,8 +16,7 @@ while True:
 
     if cv2.waitKey(27) & 0xFF==ord('q'):
         break
-    #crop=img[img.shape[0]//4+100:, img.shape[1]//8:3*img.shape[1]//4,:]
-    crop = img[img.shape[0] // 4 + 90:, :3 * img.shape[1] // 4, :]
+    crop = img[12*img.shape[0] //20:, img.shape[1]//30:17*img.shape[1]//20, :] #Analysing a particular area
     gray=cv2.cvtColor(crop,cv2.COLOR_BGR2GRAY)
     blur=cv2.GaussianBlur(gray,(3,3),cv2.BORDER_DEFAULT)
     canny=cv2.Canny(blur,50,130)

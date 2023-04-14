@@ -3,12 +3,13 @@ import numpy as np
 
 def func(x):
     pass
+file_path=input("Enter file path of the downloaded video") #Withpout quotations
 cv2.namedWindow('Trackbar')
 cv2.createTrackbar('threashold','Trackbar',0,255, func)
 cv2.createTrackbar('min','Trackbar',0,255, func)
 cv2.createTrackbar('max','Trackbar',0,255, func)
-vid=cv2.VideoCapture(r"<Enter the correct file path of the downloaded video>") 
-print("Please enter correct file path")
+vid=cv2.VideoCapture(file_path) #Kindly add 'r' before path name if '\<command>' is taken in the file name
+
 
 
 
@@ -17,10 +18,9 @@ while True:
     if _==False:
         break
     cv2.imshow('Road', img)
-    print("Enter correct file path")
 
 
-    if cv2.waitKey(1) & 0xFF==ord('q'):
+    if cv2.waitKey(27) & 0xFF==ord('q'):
         break
 
     #crop=img[img.shape[0]//4+100:, img.shape[1]//8:3*img.shape[1]//4,:]

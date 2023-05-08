@@ -3,12 +3,11 @@ import numpy as np
 
 def func(x):
     pass
-file_path=input("Enter file path of the downloaded video") #Withpout quotations
 cv2.namedWindow('Trackbar')
 cv2.createTrackbar('threashold','Trackbar',0,255, func)
 cv2.createTrackbar('min','Trackbar',0,255, func)
 cv2.createTrackbar('max','Trackbar',0,255, func)
-vid=cv2.VideoCapture(file_path) #Kindly add 'r' before path name if '\<command>' is taken in the file name
+vid=cv2.VideoCapture(r'Smooth Road.mp4')
 
 
 

@@ -1,0 +1,180 @@
+import cv2
+import numpy as np
+import keyboard
+import math
+import random
+img_height = 500
+img_width = 500
+img=np.zeros((img_height,img_width,3), np.uint8)
+
+def np_multiply(x):
+    pass
+
+thickness=-1
+center1 = (100, 100)
+center2 = (400, 400)
+color = (255,255,0)
+center=(250,250)
+steps=2
+rad=8
+radf=5
+dir='r'
+i=c=r=0
+e=0
+score=0
+f=0
+while True:
+    radius = i  #Obstacles
+
+
+
+    if c==0:
+        cv2.circle(img, center1, radius, color, thickness) #Obstacle 1
+        cv2.circle(img, center2, radius, color, thickness) #Obstacle 2
+
+        i+=1
+        if i<=50:
+            pass
+        else:
+            c=1
+    elif c==1:
+        cv2.circle(img, center1, radius+1, (0,0,0), thickness) #Obstacle 1
+        cv2.circle(img, center1, radius, color, thickness) #Obstacle 1
+        cv2.circle(img, center2, radius + 1, (0, 0, 0), thickness) #Obstacle 2
+        cv2.circle(img, center2, radius, color, thickness) #Obstacle 2
+        if i==0:
+            c=0
+        else:
+            i-=1
+
+
+
+
+    if keyboard.is_pressed('w'):
+        dir='f'
+    elif keyboard.is_pressed('s'):
+        dir='b'
+    elif keyboard.is_pressed('a'):
+        dir='l'
+    elif keyboard.is_pressed('d'):
+        dir='r'
+
+#snake
+
+    if dir=='r':
+        centerp=center
+        center=(list(center))
+        center[0]+=steps
+        center=tuple(center)
+        cv2.circle(img, centerp, rad, (0, 0, 0), thickness)
+        cv2.circle(img, center, rad, (0, 255, 255), thickness)
+    elif dir=='l':
+        centerp=center
+        center=(list(center))
+        center[0]-=steps
+        center=tuple(center)
+        cv2.circle(img, centerp, rad, (0, 0, 0), thickness)
+        cv2.circle(img, center, rad, (0, 255, 255), thickness)
+    elif dir=='b':
+        centerp=center
+        center=(list(center))
+        center[1]+=steps
+        center=tuple(center)
+        cv2.circle(img, centerp, rad, (0, 0, 0), thickness)
+        cv2.circle(img, center, rad, (0, 255, 255), thickness)
+    elif dir=='f':
+        centerp=center
+        center=(list(center))
+        center[1]-=steps
+        center=tuple(center)
+        cv2.circle(img, centerp, rad, (0, 0, 0), thickness)
+        cv2.circle(img, center, rad, (0, 255, 255), thickness)
+
+
+   # Boundary as Obstacle
+    if center[0]-rad==0:
+        break
+    if center[0]+rad == 500:
+        break
+    if center[1] - rad == 0:
+        break
+    if center[1] + rad == 500:
+        break
+    cv2.imshow('Circle', img)
+    cv2.waitKey(1)
+    if keyboard.is_pressed('esc'):
+        break
+
+
+    # Hitting Obstacle1
+    for p1 in range(-radius,radius):
+        for p2 in (int(-math.sqrt(radius**2-p1**2))//1,int(math.sqrt(radius**2-p1**2))//1):
+             if img[p1+center1[0],p2+center1[1],2]==255:
+                 if img[p1+center1[0],p2+center1[1],0]!=255:
+                     e=1
+
+    #ob1=np.where(np.multiply(img[0]==255,img[1]==255))
+
+    # Hitting Obstacle2
+    for p1 in range(-radius,radius):
+        for p2 in (int(-math.sqrt(radius**2-p1**2))//1,int(math.sqrt(radius**2-p1**2))//1):
+             if img[p1+center2[0],p2+center2[1],2]==255:
+                 if img[p1+center1[0],p2+center1[1],0]!=0:
+                     e=1
+
+    r += 1  # Food generation
+    if r == 1:
+        d = (random.randint(10, 490), random.randint(10, 490))
+        cv2.circle(img, d, radf, (255, 255, 255), thickness)
+        print(d, img[d[1], d[0]])
+    # Food Eating
+
+
+    elif r < 1000:
+        for p1 in range(-radf, radf):
+            for p2 in range(int(-math.sqrt(radf ** 2 - p1 ** 2)) // 1, int(math.sqrt(radf ** 2 - p1 ** 2)) // 1):
+                if img[p1 + d[1], p2 + d[0], 2] == 255:
+                    if img[p1 + d[1], p2 + d[0], 0] == 0:
+                        f=1
+                        print('Ok')
+                        break
+            if f==1:
+                break
+        if f==1:
+            f=0
+        else:
+                cv2.circle(img, d, radf, (255, 255, 255), thickness)
+
+
+    elif r == 1000:
+
+        cv2.circle(img, d, radf, (0, 0, 0), thickness)
+        r = 0
+
+
+    for p1 in range(-radf, radf):
+        for p2 in range(int(-math.sqrt(radf ** 2 - p1 ** 2)) // 1, int(math.sqrt(radf ** 2 - p1 ** 2)) // 1):
+            if img[p1 + d[1], p2 + d[0], 2] == 255:
+                if img[p1 + d[1], p2 + d[0], 0] == 0:
+                    r = 0
+                    cv2.circle(img, d, radf, (0, 0, 0), thickness)
+                    rad += 4
+                    score += 1
+                    img[::]=0
+                    f = 1
+                    break
+
+        if f == 1:
+            f = 0
+            break
+
+
+    cv2.putText(img, 'Score='+str(score), (350,50),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2,cv2.LINE_AA)
+
+    if e==1:
+        break
+
+
+
+
+cv2.destroyAllWindows()
